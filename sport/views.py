@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import requests
+from django.views.decorators.csrf import csrf_exemp
 
+@csrf_exempt
 def getSports(request):
     return HttpResponse(request.POST)
