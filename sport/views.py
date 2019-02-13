@@ -5,4 +5,5 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def getSports(request):
-    return HttpResponse(request.POST)
+    print(request.POST)
+    return HttpResponse(request.POST['id'])
