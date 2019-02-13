@@ -8,8 +8,8 @@ def getSports(request):
     # lessonns = sport.objects.all()
     # lessonns.delete()
 
-    lesson = sport.objects.create(idKey=str("request.POST['sport[id]']"), name=str("request.POST['sport[name]']"), photo='', Desc=str("request.POST['sport[desc]']"))
-    # lesson = sport.objects.create(idKey=str(request.POST['sport[id]']), name=request.POST['sport[name]'], photo='', Desc=request.POST['sport[desc]'])
+    # lesson = sport.objects.create(idKey=str("request.POST['sport[id]']"), name=str("request.POST['sport[name]']"), photo='', Desc=str("request.POST['sport[desc]']"))
+    lesson = sport.objects.create(idKey=str(request.POST['sport[id]']), name=request.POST['sport[name]'], photo='', Desc=request.POST['sport[desc]'])
     lesson.save()
     lessons = sport.objects.all()
     str1 = ''.join(str(e) for e in lessons)
