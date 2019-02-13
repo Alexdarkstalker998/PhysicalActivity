@@ -16,7 +16,7 @@ def getSports(request):
     # str1 = ''.join(str(e) for e in lessons)
     # # print(request.POST)
     # return HttpResponse(str1)
-    req = request.POST.dict()
+    req = request.POST.dict().keys()
     print(req)
     response = JsonResponse(req)
     return response
