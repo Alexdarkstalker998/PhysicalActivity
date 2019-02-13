@@ -17,6 +17,6 @@ def getSports(request):
     # # print(request.POST)
     # return HttpResponse(str1)
     req = request.POST.dict().keys()
-    print(req.get)
+    print(req)
     response = JsonResponse(req[0])
     return response
