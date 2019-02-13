@@ -1,0 +1,27 @@
+{%  extends  "htmlConstructor.html"%}
+{%block title%}
+  Order processing system
+{%endblock%}
+{%block content%}
+<div class="container"  style="background: linear-gradient(to bottom, #ffffff, #f2f2f2f2);background-size: cover;">
+<h1> <span class="label label-default">Order processing system</span></h1>
+<br>
+<form class="" action="" method="post">
+   {% csrf_token %}
+   <div class="form-group">
+      <h2 style="color:red">
+      Wrong password or login.</h3>
+      <h3>Login</h3>
+      <input type="text" required AUTOCOMPLETE="off" class="form-control" name="login">
+   </div>
+   <div class="form-group">
+      <h3>Password</h3>
+      <input type="password" required AUTOCOMPLETE="off" class="form-control" name="password" >
+   </div>
+   <button type="submit" name="log" value="Add" style="font-size: 20px" class="btn btn-default" href="">Login</button>
+</form>
+<form class="" action="register/" method="post">{% csrf_token %}
+   <button type="submit" style="position: relative; left:140px;bottom:42px ; font-size: 20px" class="btn btn-default" href="register/">Register</button>
+   <br><br><br>
+</form>
+{%endblock%}

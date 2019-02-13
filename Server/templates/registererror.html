@@ -1,0 +1,80 @@
+{%  extends  "htmlConstructor.html"%}
+{%block title%}
+  New company
+{%endblock%}
+{%block content%}
+<div class="container"  style="background: linear-gradient(to bottom, #ffffff, #f2f2f2f2);background-size: cover;">
+   <h1> <span class="label label-default">Order processing system</span></h1>
+   <br>
+   <form class="" action="http://127.0.0.1:8000/" method="post">{% csrf_token %}
+      <button type="submit" style=" font-size: 15px" name="register" value="Add" class="btn btn-default" href="main_page/">Back</button>
+   </form>
+   <h1 style="color:red">This login is used</h1>
+   <form class="" id="register" action="" method="post">
+      {% csrf_token %}
+      <h3>Company information</h3>
+      <div class="form-group">
+         <label for="Name" >Company name:</label>
+         <input type="text" required AUTOCOMPLETE="off" class="form-control" name="name">
+      </div>
+      <div class="form-group">
+         <label for="Date" >Foundation date:</label>
+         <input type="date" class="form-control" required name="foundation">
+      </div>
+      <br>
+      <h3>Director information</h3>
+      <div class="form-group">
+         <label for="first_name" >First name:</label>
+         <input type="text" required AUTOCOMPLETE="off" class="form-control" name="first_name">
+      </div>
+      <div class="form-group">
+         <label for="Surname" >Surname:</label>
+         <input type="text" required AUTOCOMPLETE="off" class="form-control" name="Surname">
+      </div>
+      <div class="form-group">
+         <label for="patronymic" >Patronymic:</label>
+         <input type="text" required AUTOCOMPLETE="off" class="form-control" name="patronymic">
+      </div>
+      <div class="form-group">
+         <label for="birthday" >Birthday date:</label>
+         <input type="date" class="form-control" required name="birthday">
+         <div class="form-group">
+            <br><br>Login
+            <input type="text" required AUTOCOMPLETE="off" class="form-control" name="login">
+         </div>
+         <div class="form-group">
+            Password
+            <input type="password" id="pass" required AUTOCOMPLETE="off" class="form-control" name="password" >
+         </div>
+         <div class="form-group">
+            Confirm password
+            <input type="password" id="repPass" required AUTOCOMPLETE="off" class="form-control" name="password" >
+            <div id="errorBlock"></div>
+         </div>
+      </div>
+      <button id="submit" type="submit" style=" font-size: 20px" name="register" value="Add" class="btn btn-default" href="">Register</button>
+   </form>
+   <br><br><br>
+</div>
+<script>
+   $(document).ready(function() {
+       $('#repPass').keyup(function() {
+           var pass = $("#pass").val();
+           var pass_rep = $("#repPass").val();
+
+           if (pass != pass_rep) {
+               $("#repPass").css('border', 'red 1px solid');
+               $('#errorBlock').html('Passwords do not match');
+           }
+           else {
+             $("#repPass").css('border', '');
+             $('#errorBlock').html('');
+             }
+       });
+   });
+   document.getElementById("register").onsubmit = function() {
+   if (document.getElementById("pass").value == document.getElementById("repPass").value)
+    { return true; } else { alert("Passwords do not match"); return false; }
+   };
+</script>
+{%endblock%}
