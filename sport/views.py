@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.db import models
+from sport.models import sport
 
 @csrf_exempt
 def getSports(request):
