@@ -43,12 +43,13 @@ def schedule(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
     try:
+        print("0")
         us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
         type = us.type2
-        print(1)
+        print("1")
         courses = list(lesson.objects.filter(stud = type))
         an = list()
-        print(2)
+        print("2")
         for el in courses:
             dic = dict()
             dic.update({'sport':model_to_dict(el.sport)['name']})
