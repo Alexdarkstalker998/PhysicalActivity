@@ -38,12 +38,13 @@ def login(request):
         print(e)
         return JsonResponse({'aut':'error'})
 
+@csrf_exempt
 def schedule(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
     try:
         us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
-        type = us.type2 
+        type = us.type2
         courses = type.lesson.all()
         return JsonResponse({'aut':"accept"})
     except Exception as e:
