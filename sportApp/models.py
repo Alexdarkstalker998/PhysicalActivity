@@ -32,7 +32,7 @@ class lesson(models.Model):
     coach = models.ForeignKey(type1, on_delete = models.DO_NOTHING)
     lvl = models.CharField(max_length=1)
     wday = models.CharField(max_length=13)
-    tday = models.CharField(max_length=4)
+    tday = models.CharField(max_length=5)
     place = models.ForeignKey(place, on_delete = models.PROTECT)
     stud = models.ManyToManyField(type2)
     countmax = models.CharField(max_length=4)
