@@ -32,11 +32,16 @@ def login(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
     try:
-        user.objects.get(tabnum = loguser['login'],password=loguser['password'])
-        return JsonResponse({'aut':"accept"})
+        us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
     except Exception as e:
         print(e)
         return JsonResponse({'aut':'error'})
+    try:
+        us.type2
+    except Exception as e:
+        print(e)
+        return JsonResponse({'aut':'error'})
+    return JsonResponse({'aut':"accept"})
 
 @csrf_exempt
 def schedule(request):
@@ -61,11 +66,10 @@ def schedule(request):
             dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
             an.append(dic)
         print(an)
-        return JsonResponse({'sch':an})
+        return JsonResponse({'sch':[{"asd":"123","qwe":456},{"qaz":"654","yytr":"333"}]})
     except Exception as e:
         print(e)
         return JsonResponse({'schedule':'error'})
-    return HttpResponse('a')
 
 
 def test(request):
