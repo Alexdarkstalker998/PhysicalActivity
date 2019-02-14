@@ -41,6 +41,7 @@ def login(request):
 @csrf_exempt
 def schedule(request):
     logjson = get_from_request(request)
+    print(logjson)
     loguser = logjson.get("user")
     try:
         print("0")
