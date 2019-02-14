@@ -66,7 +66,7 @@ def schedule(request):
             dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
             an.append(dic)
         print(an)
-        return JsonResponse({'sch':[{"asd":"123","qwe":456},{"qaz":"654","yytr":"333"}]})
+        return JsonResponse({'sch':an})
     except Exception as e:
         print(e)
         return JsonResponse({'schedule':'error'})
