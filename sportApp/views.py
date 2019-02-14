@@ -53,12 +53,11 @@ def schedule(request):
             co = model_to_dict(el.coach)
             co.update(model_to_dict(el.coach.user))
             co.pop('user')
-            dic.update({'coach':{'name':co["name"],'surname':co["surrname"],'id':co[id]}})
-            an.append(dic)
+            dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
             dic.update({'lvl':el.lvl,'wday':el.wday,'tday':el.tday,"place":model_to_dict(el.place)})
+            an.append(dic)
 
-
-        return JsonResponse({'aut':an})
+        return JsonResponse({'sch':an})
     except Exception as e:
         print(e)
         return JsonResponse({'aut':'error'})
@@ -86,21 +85,13 @@ def test(request):
     an = list()
     for el in courses:
         dic = dict()
-        dic.update({'sport':model_to_dict(el.sport)})
+        dic.update({'sport':model_to_dict(el.sport)['name']})
         co = model_to_dict(el.coach)
         co.update(model_to_dict(el.coach.user))
         co.pop('user')
-        dic.update({'coach':co})
+        dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+        dic.update({'lvl':el.lvl,'wday':el.wday,'tday':el.tday,"place":model_to_dict(el.place)})
         an.append(dic)
-        dic.update({'lvl':el.lvl,'wday':el.wday,'tday':el.tday,"place":model_to_dict(el.place),'countmax': el.countmax, 'countnow': el.countnow})
-        studs = list()
-        for elem in list(el.stud.all()):
-            listdic = dict()
-            listdic.update(model_to_dict(elem))
-            listdic.pop("user")
-            listdic.update(model_to_dict(elem.user))
-            studs.append(listdic)
-        dic.update({"stud":studs})
 
     response = {'aut':an}
     print(response)
