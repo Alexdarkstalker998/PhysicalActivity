@@ -58,7 +58,7 @@ def schedule(request):
             co.update(model_to_dict(el.coach.user))
             co.pop('user')
             dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
-            dic.update({'lvl':el.lvl,'wday':el.wday,'tday':el.tday,"place":model_to_dict(el.place)})
+            dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
             an.append(dic)
         print(an)
         return JsonResponse({'sch':an})
@@ -82,8 +82,8 @@ def test(request):
     l.stud.add(t3)
     us = user.objects.get(tabnum = '111111',password='1488')
     type = us.type2
-    l2 = lesson.objects.create(sport = s, coach = t2, lvl="1",wday="Понедельник",tday="11:40",place =p, countmax = '50',countnow='49')
-    l2.stud.add(t1)
+    # l2 = lesson.objects.create(sport = s, coach = t2, lvl="1",wday="Понедельник",tday="11:40",place =p, countmax = '50',countnow='49')
+    # l2.stud.add(t1)
 
 
     courses = list(lesson.objects.filter(stud = type))
@@ -95,7 +95,7 @@ def test(request):
         co.update(model_to_dict(el.coach.user))
         co.pop('user')
         dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
-        dic.update({'lvl':el.lvl,'wday':el.wday,'tday':el.tday,"place":model_to_dict(el.place)})
+        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
         an.append(dic)
 
     response = {'aut':an}
