@@ -45,8 +45,10 @@ def schedule(request):
     try:
         us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
         type = us.type2
+        print(1)
         courses = list(lesson.objects.filter(stud = type))
         an = list()
+        print(2)
         for el in courses:
             dic = dict()
             dic.update({'sport':model_to_dict(el.sport)['name']})
@@ -60,7 +62,7 @@ def schedule(request):
         return JsonResponse({'sch':an})
     except Exception as e:
         print(e)
-        return JsonResponse({'aut':'error'})
+        return JsonResponse({'she':'error'})
     return HttpResponse('a')
 
 
