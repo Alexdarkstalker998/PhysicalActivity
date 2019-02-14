@@ -22,4 +22,13 @@ urlpatterns = [
     path('dbadmin/', views.dbview),
     path('sport/', include('sportApp.urls')),
     path('',views.login),
+    path('dbadmin/sports/', views.dbsports),
+    path('dbadmin/students/',views.dbstudents),
+    path('dbadmin/coachs/',views.dbcoachs),
+    path('dbadmin/places/',views.dbplaces),
+    path('dbadmin/lessons/',views.dblessons),
+    path('dbadmin/messages/',views.dbmessages),
+    path('edit/',views.lessonedit),
+    path('edit/marks/',views.lessonmark),
+    path('edit/messages/',views.lessonmessages),
 ]
