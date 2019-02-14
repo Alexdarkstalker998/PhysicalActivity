@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from sportApp.models import lesson, user
 from django.http import JsonResponse
 import json
+from django.forms.models import model_to_dict
 
 @csrf_exempt
 def getSports(request):
@@ -25,4 +26,5 @@ def getSports(request):
 
 def test(request):
     p1, created = user.objects.get_or_create(tabnum = "111111", password = '1488', name = "Alex", surname = 'Nefedov')
-    return HttpResponse(p1)
+    print(model_to_dict(p1))
+    return JsonResponse(model_to_dict(p1))
