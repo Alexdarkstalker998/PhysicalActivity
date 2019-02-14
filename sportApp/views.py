@@ -6,6 +6,10 @@ from django.http import JsonResponse
 import json
 from django.forms.models import model_to_dict
 
+
+def get_from_request(request):
+    return json.loads(list(request.POST.dict().keys())[0])
+
 @csrf_exempt
 def getSports(request):
     # lessonns = sport.objects.all()
@@ -22,6 +26,18 @@ def getSports(request):
     print(slov)
     response = JsonResponse(slov)
     return response
+
+def login(request):
+    logjson = get_from_request(request)
+    loguser = logjson.get("user")
+    try:
+        user.objects.get(name = loguser['name'],password=loguser['password'])
+        return JsonResponse({'aut':"accept"})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'aut':'error'})
+
+
 
 
 def test(request):

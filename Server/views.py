@@ -5,11 +5,7 @@ from sportApp.models import sport
 
 @csrf_exempt
 def dbview(request):
-    # lessonns = sport.objects.all()
-    # lessonns.delete()
-    #
-    # # lesson = sport.objects.create(idKey=str(request.POST['sport[id]']), name=request.POST['sport[name]'], photo='', Desc=request.POST['sport[desc]'])
-    # lesson.save()
+    studs = user
     lessons = sport.objects.all()
     str1 = ''.join(str(e) for e in lessons)
     # print(request.POST)
