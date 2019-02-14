@@ -60,7 +60,7 @@ def schedule(request):
             dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
             dic.update({'lvl':el.lvl,'wday':el.wday,'tday':el.tday,"place":model_to_dict(el.place)})
             an.append(dic)
-
+        print(an)
         return JsonResponse({'sch':an})
     except Exception as e:
         print(e)
