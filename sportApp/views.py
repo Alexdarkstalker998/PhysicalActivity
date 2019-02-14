@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from sportApp.models import sport
 from django.http import JsonResponse
+import json
 
 @csrf_exempt
 def getSports(request):
@@ -16,6 +17,6 @@ def getSports(request):
     # str1 = ''.join(str(e) for e in lessons)
     # # print(request.POST)
     # return HttpResponse(str1)
-    print(request.POST)
+    print(json.loads(list(request.POST.dict().keys())[0]))
     response = JsonResponse(request.POST.dict())
     return response
