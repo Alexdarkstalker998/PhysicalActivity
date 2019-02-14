@@ -26,7 +26,8 @@ def getSports(request):
     print(slov)
     response = JsonResponse(slov)
     return response
-
+    
+@csrf_exempt
 def login(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
