@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from sportApp.models import lesson, user, type1, type2, place, lesson, messages
+from sportApp.models import lesson, user, type1, type2, place, lesson, messages, sport
 from django.http import JsonResponse
 import json
 from django.forms.models import model_to_dict
@@ -45,8 +45,20 @@ def schedule(request):
     try:
         us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
         type = us.type2
-        courses = type.lesson.all()
-        return JsonResponse({'aut':"accept"})
+        courses = list(lesson.objects.filter(stud = type))
+        an = list()
+        for el in courses:
+            dic = dict()
+            dic.update({'sport':model_to_dict(el.sport)['name']})
+            co = model_to_dict(el.coach)
+            co.update(model_to_dict(el.coach.user))
+            co.pop('user')
+            dic.update({'coach':{'name':co["name"],'surname':co["surrname"],'id':co[id]}})
+            an.append(dic)
+            dic.update({'lvl':el.lvl,'wday':el.wday,'tday':el.tday,"place":model_to_dict(el.place)})
+
+
+        return JsonResponse({'aut':an})
     except Exception as e:
         print(e)
         return JsonResponse({'aut':'error'})
@@ -55,12 +67,41 @@ def schedule(request):
 
 def test(request):
     p1, created = user.objects.get_or_create(tabnum = "111111", password = '1488', name = "Alex", surname = 'Nefedov')
+    p3, created = user.objects.get_or_create(tabnum = "333333", password = '3222', name = "Alesx", surname = 'Refedov')
+    t3, created = type2.objects.get_or_create(email = "asdfg@mail.ru", group = 'k3215', goal = "0", user = p3)
     t1, created = type2.objects.get_or_create(email = "asd@mail.ru", group = 'k3215', goal = "0", user = p1)
     s, created = sport.objects.get_or_create(name = 'Борьба',desc='Это борьба, там борятся.')
     p,created= place.objects.get_or_create(name = "Ломо")
     p2, created = user.objects.get_or_create(tabnum = "222222", password = '1337', name = "Anton", surname = 'Evteev')
     t2, created = type1.objects.get_or_create(contacts = '911838284', desc = 'Хороший учитель', user = p2)
-    lesson, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Понедельник",tday="11:40",place =p, countmax = '50',countnow='49')
-    lesson.stud__set.add(t1)
-    print(model_to_dict(p1))
+    l, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Пtонедельник",tday="11:40",place =p, countmax = '50',countnow='49')
+    l.stud.add(t1)
+    l.stud.add(t3)
+    us = user.objects.get(tabnum = '111111',password='1488')
+    type = us.type2
+    # l2 = lesson.objects.create(sport = s, coach = t2, lvl="1",wday="Понедельник",tday="11:40",place =p, countmax = '50',countnow='49')
+    # l2.stud.add(t1)
+
+    courses = list(lesson.objects.filter(stud = type))
+    an = list()
+    for el in courses:
+        dic = dict()
+        dic.update({'sport':model_to_dict(el.sport)})
+        co = model_to_dict(el.coach)
+        co.update(model_to_dict(el.coach.user))
+        co.pop('user')
+        dic.update({'coach':co})
+        an.append(dic)
+        dic.update({'lvl':el.lvl,'wday':el.wday,'tday':el.tday,"place":model_to_dict(el.place),'countmax': el.countmax, 'countnow': el.countnow})
+        studs = list()
+        for elem in list(el.stud.all()):
+            listdic = dict()
+            listdic.update(model_to_dict(elem))
+            listdic.pop("user")
+            listdic.update(model_to_dict(elem.user))
+            studs.append(listdic)
+        dic.update({"stud":studs})
+
+    response = {'aut':an}
+    print(response)
     return JsonResponse(model_to_dict(p1))
