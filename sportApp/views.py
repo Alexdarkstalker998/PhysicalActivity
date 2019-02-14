@@ -84,6 +84,7 @@ def test(request):
     type = us.type2
     l2 = lesson.objects.create(sport = s, coach = t2, lvl="1",wday="Понедельник",tday="11:40",place =p, countmax = '50',countnow='49')
     l2.stud.add(t1)
+    
 
     courses = list(lesson.objects.filter(stud = type))
     an = list()
