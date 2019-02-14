@@ -26,11 +26,13 @@ def getSports(request):
     print(slov)
     response = JsonResponse(slov)
     return response
-    
+
 @csrf_exempt
 def login(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
+    print(logjson)
+    print(loguser)
     try:
         user.objects.get(name = loguser['name'],password=loguser['password'])
         return JsonResponse({'aut':"accept"})
