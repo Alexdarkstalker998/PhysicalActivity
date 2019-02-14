@@ -34,7 +34,8 @@ def login(request):
     print(logjson)
     print(loguser)
     try:
-        user.objects.get(name = loguser['name'],password=loguser['password'])
+        user.objects.get(name = loguser['login'],password=loguser['password'])
+        print("ok")
         return JsonResponse({'aut':"accept"})
     except Exception as e:
         print(e)
