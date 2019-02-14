@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from sportApp.models import sport
+from sportApp.models import lesson, user
 from django.http import JsonResponse
 import json
 
@@ -21,3 +21,8 @@ def getSports(request):
     print(slov)
     response = JsonResponse(slov)
     return response
+
+
+def test(request):
+    p1, created = user.objects.get_or_create(tabnum = "111111", password = '1488', name = "Alex", surname = 'Nefedov')
+    return HttpResponse(p1)
