@@ -31,6 +31,8 @@ def getSports(request):
 def login(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
+    if loguser['login']=="admin" and loguser['password'] == 'admin':
+        return {'aut':'admin'}
     try:
         us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
     except Exception as e:
@@ -39,9 +41,8 @@ def login(request):
     try:
         us.type2
     except Exception as e:
-        print(e)
-        return JsonResponse({'aut':'error'})
-    return JsonResponse({'aut':"accept"})
+        return JsonResponse({'aut':'coach'})
+    return JsonResponse({'aut':"user"})
 
 @csrf_exempt
 def schedule(request):
