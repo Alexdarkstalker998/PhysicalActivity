@@ -97,6 +97,27 @@ def getlesson(request):
         an.append(dic)
     return JsonResponse({'gtlsn':an})
 
+@csrf_exempt
+def dolesson(request):
+    logjson = get_from_request(request)
+    loguser = logjson.get("user")
+    try:
+        us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
+        t = us.type2
+    except Exception as e:
+        print(e)
+        return JsonResponse({'dlsn':'user_error'})
+    try:
+        loglesson = logjson.get('lesson')
+        l = lesson.objects.get(id = int(loglesson['id']))
+        l.stud.add(t)
+        l.countnow = str(int(l.countnow) - 1)
+        l.save()
+    except Exception as e:
+        print(e)
+        return JsonResponse({'dlsn':'join_error'})
+
+    return JsonResponse({'dlsn':'success'})
 
 def test(request):
     p1, created = user.objects.get_or_create(tabnum = "111111", password = '1488', name = "Alex", surname = 'Nefedov')
