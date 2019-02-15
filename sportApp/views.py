@@ -83,7 +83,7 @@ def getlesson(request):
         co.update(model_to_dict(el.coach.user))
         co.pop('user')
         dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
-        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
+        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
         an.append(dic)
     return JsonResponse({'gtlsn':an})
 
@@ -140,7 +140,7 @@ def test(request):
         co.update(model_to_dict(el.coach.user))
         co.pop('user')
         dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
-        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
+        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
         an.append(dic)
     response = {'aut':an}
     print(response)
