@@ -32,7 +32,7 @@ def login(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
     if loguser['login']=="admin" and loguser['password'] == 'admin':
-        return {'aut':'admin'}
+        return JsonResponse({'aut':'admin'})
     try:
         us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
     except Exception as e:
