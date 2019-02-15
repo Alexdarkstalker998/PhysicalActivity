@@ -41,8 +41,8 @@ def login(request):
     try:
         us.type2
     except Exception as e:
-        return JsonResponse({'aut':{'coach', {'name':us.name,'surname':us.surname}}})
-    return JsonResponse({'aut':{"user", {'name':us.name,'surname':us.surname}}})
+        return JsonResponse({'aut':['coach', {'name':us.name,'surname':us.surname}]})
+    return JsonResponse({'aut':["user", {'name':us.name,'surname':us.surname}]})
 
 @csrf_exempt
 def schedule(request):
