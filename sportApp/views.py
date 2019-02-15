@@ -41,8 +41,8 @@ def login(request):
     try:
         us.type2
     except Exception as e:
-        return JsonResponse({'aut':'coach'})
-    return JsonResponse({'aut':"user"})
+        return JsonResponse({'aut':{'coach':{'name':us.name,'surname':us.surname}}})
+    return JsonResponse({'aut':{"user":{'name':us.name,'surname':us.surname}}})
 
 @csrf_exempt
 def schedule(request):
@@ -99,10 +99,10 @@ def test(request):
     s1, created = sport.objects.get_or_create(name = 'Флорбол',desc='Это флорбол, там игрют в флорбол.')
     s2, created = sport.objects.get_or_create(name = 'Бокс',desc='Это бокс, там дерутся.')
     s3, created = sport.objects.get_or_create(name = 'Гребля',desc='Это гребля, там гребут.')
-    p,created= place.objects.get_or_create(name = "Ломо")
-    p1p,created= place.objects.get_or_create(name = "Вязбма")
-    p2p,created= place.objects.get_or_create(name = "Альпийка")
-    p3p,created= place.objects.get_or_create(name = "Другое")
+    p,created= place.objects.get_or_create(name = "ул. Ломоносова, д. 9")
+    p1p,created= place.objects.get_or_create(name = "Вяземский переулок, д. 5/7")
+    p2p,created= place.objects.get_or_create(name = "Альпийский переулок, д. 15, к. 2, лит. А")
+    p3p,created= place.objects.get_or_create(name = "Другие спортивные объекты")
     p2, created = user.objects.get_or_create(tabnum = "222222", password = '1337', name = "Anton", surname = 'Evteev')
     t2, created = type1.objects.get_or_create(contacts = '911838284', desc = 'Хороший учитель', user = p2)
     l, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Пtонедельник",tday="11:40",place =p, countmax = '50',countnow='49')
@@ -148,6 +148,12 @@ def test(request):
     print(response)
     return JsonResponse(model_to_dict(p1))
 
+def testtest(request):
+    place.objects.filter(name = "Ломо").update(name= "ул. Ломоносова, д. 9")
+    place.objects.filter(name = "Вязбма").update(name= "Вяземский переулок, д. 5/7")
+    place.objects.filter(name = "Альпийка").update(name= "Альпийский переулок, д. 15, к. 2, лит. А")
+    place.objects.filter(name = "Другое").update(name = "Другие спортивные объекты")
+    return JsonResponse({})
 
 @csrf_exempt
 def admin(request):
