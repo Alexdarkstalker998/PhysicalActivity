@@ -95,7 +95,7 @@ def colesson(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
     loglesson = logjson.get('lesson')
-    el = lesson.objects.get(id = int(loglesson))
+    el = lesson.objects.get(id = int(loglesson['id']))
     dic = dict()
     dic.update({'sport':model_to_dict(el.sport)['name']})
     co = model_to_dict(el.coach)
