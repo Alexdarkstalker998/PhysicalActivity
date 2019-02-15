@@ -149,10 +149,6 @@ def test(request):
     return JsonResponse(model_to_dict(p1))
 
 def testtest(request):
-    place.objects.filter(name = "Ломо").update(name= "ул. Ломоносова, д. 9")
-    place.objects.filter(name = "Вязбма").update(name= "Вяземский переулок, д. 5/7")
-    place.objects.filter(name = "Альпийка").update(name= "Альпийский переулок, д. 15, к. 2, лит. А")
-    place.objects.filter(name = "Другое").update(name = "Другие спортивные объекты")
     return JsonResponse({})
 
 @csrf_exempt
