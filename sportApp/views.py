@@ -133,7 +133,7 @@ def dolesson(request):
         except Exception as e:
             print(e)
             return JsonResponse({'dlsn':'del_error'})
-        return JsonResponse({'dlsn':'success'})
+        return JsonResponse({'dlsn':'del_success'})
     else: return JsonResponse({'dlsn':'key_error'})
 
 def test(request):
