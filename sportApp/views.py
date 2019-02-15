@@ -106,7 +106,9 @@ def test(request):
 @csrf_exempt
 def admin(request):
     logjson = get_from_request(request)
+    print(logjson)
     loguser = logjson.get("user")
+    print(loguser)
     if loguser['login']!="admin" and loguser['password'] != 'admin':
         return JsonResponse({'admin':'user_error'})
     lognewuser = logjson.get("newuser")
