@@ -68,7 +68,7 @@ def schedule(request):
         return JsonResponse({'schedule':'error'})
 
 @csrf_exempt
-def coschedule(response):
+def coschedule(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
     try:
