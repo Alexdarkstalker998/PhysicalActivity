@@ -107,7 +107,7 @@ def dolesson(request):
     except Exception as e:
         print(e)
         return JsonResponse({'dlsn':'user_error'})
-    if len(list(lesson.objects.filter(stud = type)))>=3:
+    if len(list(lesson.objects.filter(stud = t)))>=3:
         return JsonResponse({'dlsn':'maxlessons'})
     try:
         loglesson = logjson.get('lesson')
