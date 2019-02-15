@@ -109,7 +109,7 @@ def dolesson(request):
         return JsonResponse({'dlsn':'user_error'})
     if len(list(lesson.objects.filter(stud = t)))>=3:
         return JsonResponse({'dlsn':'maxlessons'})
-        loglesson = logjson.get('lesson')
+    loglesson = logjson.get('lesson')
     if loglesson['do'] == "join":
         try:
             l = lesson.objects.get(id = int(loglesson['id']))
