@@ -86,6 +86,14 @@ def getlesson(request):
         co.pop('user')
         dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
         dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
+        co = el.stud.all()
+        if len(co)!=0:
+            for u in co:
+                if u.user.id == us.id:
+                    dic.update({'member':True})
+                    break
+                else: dic.update({'member':False})
+        else: dic.update({'member':False})
         an.append(dic)
     return JsonResponse({'gtlsn':an})
 
@@ -143,6 +151,14 @@ def test(request):
         co.pop('user')
         dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
         dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
+        co = el.stud.all()
+        if len(co)!=0:
+            for u in co:
+                if u.user.id == us.id:
+                    dic.update({'member':True})
+                    break
+                else: dic.update({'member':False})
+        else: dic.update({'member':False})
         an.append(dic)
     response = {'aut':an}
     print(response)
