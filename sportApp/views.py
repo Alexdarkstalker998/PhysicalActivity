@@ -109,17 +109,29 @@ def dolesson(request):
         return JsonResponse({'dlsn':'user_error'})
     if len(list(lesson.objects.filter(stud = t)))>=3:
         return JsonResponse({'dlsn':'maxlessons'})
-    try:
         loglesson = logjson.get('lesson')
-        l = lesson.objects.get(id = int(loglesson['id']))
-        l.stud.add(t)
-        l.countnow = str(int(l.countnow) - 1)
-        l.save()
-    except Exception as e:
-        print(e)
-        return JsonResponse({'dlsn':'join_error'})
+    if loglesson['do'] == "join":
+        try:
+            l = lesson.objects.get(id = int(loglesson['id']))
+            l.stud.add(t)
+            l.countnow = str(int(l.countnow) - 1)
+            l.save()
+        except Exception as e:
+            print(e)
+            return JsonResponse({'dlsn':'join_error'})
 
-    return JsonResponse({'dlsn':'success'})
+        return JsonResponse({'dlsn':'success'})
+    elif loglesson['do']== 'del':
+        try:
+            l = lesson.objects.get(id = int(loglesson['id']))
+            l.stud.remove(t)
+            l.countnow = str(int(l.countnow) + 1)
+            l.save()
+        except Exception as e:
+            print(e)
+            return JsonResponse({'dlsn':'del_error'})
+        return JsonResponse({'dlsn':'success'})
+    else: return JsonResponse({'dlsn':'key_error'})
 
 def test(request):
     p1, created = user.objects.get_or_create(tabnum = "111111", password = '1488', name = "Alex", surname = 'Nefedov')
