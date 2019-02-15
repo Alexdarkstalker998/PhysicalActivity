@@ -67,6 +67,7 @@ def schedule(request):
         print(e)
         return JsonResponse({'schedule':'error'})
 
+@csrf_exempt
 def getlesson(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
