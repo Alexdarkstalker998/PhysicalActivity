@@ -47,16 +47,12 @@ def login(request):
 @csrf_exempt
 def schedule(request):
     logjson = get_from_request(request)
-    print(logjson)
     loguser = logjson.get("user")
     try:
-        print("0")
         us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
         type = us.type2
-        print("1")
         courses = list(lesson.objects.filter(stud = type))
         an = list()
-        print("2")
         for el in courses:
             dic = dict()
             dic.update({'sport':model_to_dict(el.sport)['name']})
@@ -66,7 +62,6 @@ def schedule(request):
             dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
             dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
             an.append(dic)
-        print(an)
         return JsonResponse({'sch':an})
     except Exception as e:
         print(e)
@@ -106,3 +101,20 @@ def test(request):
     response = {'aut':an}
     print(response)
     return JsonResponse(model_to_dict(p1))
+
+
+@csrf_exempt
+def admin(request):
+    logjson = get_from_request(request)
+    loguser = logjson.get("user")
+    if loguser['login']!="admin" and loguser['password'] != 'admin':
+        return JsonResponse({'admin':'user_error'})
+    lognewuser = logjson.get("newuser")
+    try:
+        a = user.objects.get(tabnum=lognewuser['tabnum'])
+        return JsonResponse({'admin':'create_err'})
+    except Exception as e:
+        pass
+    p1, created = user.objects.get_or_create(tabnum = lognewuser['tabnum'], password = lognewuser['password'], name = lognewuser['name'], surname = lognewuser['surname'])
+    t1, created = type2.objects.get_or_create(email = lognewuser['email'], group = lognewuser['group'], goal = "0", user = p1)
+    return JsonResponse({'admin':'created'})
