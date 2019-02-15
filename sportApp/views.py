@@ -77,6 +77,7 @@ def getlesson(request):
         print(e)
         return JsonResponse({'gtlsn':'user_error'})
     courses = list(lesson.objects.all())
+    an = list()
     for el in courses:
         dic = dict()
         dic.update({'sport':model_to_dict(el.sport)['name']})
