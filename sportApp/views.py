@@ -206,7 +206,7 @@ def test(request):
     # l3, created = lesson.objects.get_or_create(sport = s3, coach = t2, lvl="3",wday="Четверг",tday="08:20",place =p3p, countmax = '25',countnow='25')
     # l4, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="2",wday="Пятница",tday="15:00",place =p1p, countmax = '30',countnow='30')
     # l5, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Суббота",tday="16:50",place =p2p, countmax = '40',countnow='40')
-    l6, created = lesson.objects.update_or_create(sport = s3, default = {'countmax':'8', 'countnow':'0'} )
+    l6, created = lesson.objects.update_or_create(sport = s3, defaults = {'countmax':'8', 'countnow':'0'} )
 
     us = user.objects.get(tabnum = '111111',password='1488')
     type = us.type2
