@@ -201,11 +201,12 @@ def test(request):
     p3p,created= place.objects.get_or_create(name = "Другие спортивные объекты")
     p2, created = user.objects.get_or_create(tabnum = "222222", password = '1337', name = "Anton", surname = 'Evteev')
     t2, created = type1.objects.get_or_create(contacts = '911838284', desc = 'Хороший учитель', user = p2)
-    l1, created = lesson.objects.get_or_create(sport = s1, coach = t2, lvl="2",wday="Вторник",tday="11:40",place =p1p, countmax = '50',countnow='50')
-    l2, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="3",wday="Среда",tday="13:30",place =p2p, countmax = '50',countnow='50')
-    l3, created = lesson.objects.get_or_create(sport = s3, coach = t2, lvl="3",wday="Четверг",tday="08:20",place =p3p, countmax = '25',countnow='25')
-    l4, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="2",wday="Пятница",tday="15:00",place =p1p, countmax = '30',countnow='30')
-    l5, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Суббота",tday="16:50",place =p2p, countmax = '40',countnow='40')
+    # l1, created = lesson.objects.get_or_create(sport = s1, coach = t2, lvl="2",wday="Вторник",tday="11:40",place =p1p, countmax = '50',countnow='50')
+    # l2, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="3",wday="Среда",tday="13:30",place =p2p, countmax = '50',countnow='50')
+    # l3, created = lesson.objects.get_or_create(sport = s3, coach = t2, lvl="3",wday="Четверг",tday="08:20",place =p3p, countmax = '25',countnow='25')
+    # l4, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="2",wday="Пятница",tday="15:00",place =p1p, countmax = '30',countnow='30')
+    # l5, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Суббота",tday="16:50",place =p2p, countmax = '40',countnow='40')
+    l6, created = lesson.objects.update_or_create(sport = s3, default = {'countmax':'8', 'countnow':'0'} )
 
     us = user.objects.get(tabnum = '111111',password='1488')
     type = us.type2
@@ -213,72 +214,72 @@ def test(request):
     # l2.stud.add(t1)
 
     # !! Уроки студента
-    courses = list(lesson.objects.filter(stud = type))
-    an = list()
-    for el in courses:
-        dic = dict()
-        dic.update({'sport':model_to_dict(el.sport)['name']})
-        co = model_to_dict(el.coach)
-        co.update(model_to_dict(el.coach.user))
-        co.pop('user')
-        dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
-        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
-        an.append(dic)
-    response = {'aut':an}
-
-    # !!Уроки преподователя
-    type = p2.type1
-    courses = list(lesson.objects.filter(coach = type))
-    an = list()
-    for el in courses:
-        dic = dict()
-        dic.update({'sport':model_to_dict(el.sport)['name']})
-        co = model_to_dict(el.coach)
-        co.update(model_to_dict(el.coach.user))
-        co.pop('user')
-        dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
-        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
-        an.append(dic)
-    response = {'aut':an}
-
-    # !!Урок преподователя
-    el = l1
-    dic = dict()
-    dic.update({'sport':model_to_dict(el.sport)['name']})
-    co = model_to_dict(el.coach)
-    co.update(model_to_dict(el.coach.user))
-    co.pop('user')
-    dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
-    dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
-    slst =list()
-    for student in list(el.stud.all()):
-        studdic= dict()
-        studdic.update({'group':student.group,'id':student.user.id,'tabnum':student.user.tabnum,'name':student.user.name,'surname':student.user.surname})
-        slst.append(studdic)
-    dic.update({"stud":slst})
-
-    # !!Выставление баллов
-
-
-    # !!Все уроки
-    courses = list(lesson.objects.all())
-    for el in courses:
-        dic = dict()
-        dic.update({'sport':model_to_dict(el.sport)['name']})
-        co = model_to_dict(el.coach)
-        co.update(model_to_dict(el.coach.user))
-        co.pop('user')
-        dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
-        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
-        co = el.stud.all()
-        if len(co)!=0:
-            for u in co:
-                if u.user.id == us.id:
-                    dic.update({'member':True})
-                    break
-                else: dic.update({'member':False})
-        else: dic.update({'member':False})
-        an.append(dic)
+    # courses = list(lesson.objects.filter(stud = type))
+    # an = list()
+    # for el in courses:
+    #     dic = dict()
+    #     dic.update({'sport':model_to_dict(el.sport)['name']})
+    #     co = model_to_dict(el.coach)
+    #     co.update(model_to_dict(el.coach.user))
+    #     co.pop('user')
+    #     dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+    #     dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
+    #     an.append(dic)
+    # response = {'aut':an}
+    #
+    # # !!Уроки преподователя
+    # type = p2.type1
+    # courses = list(lesson.objects.filter(coach = type))
+    # an = list()
+    # for el in courses:
+    #     dic = dict()
+    #     dic.update({'sport':model_to_dict(el.sport)['name']})
+    #     co = model_to_dict(el.coach)
+    #     co.update(model_to_dict(el.coach.user))
+    #     co.pop('user')
+    #     dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+    #     dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
+    #     an.append(dic)
+    # response = {'aut':an}
+    #
+    # # !!Урок преподователя
+    # el = l1
+    # dic = dict()
+    # dic.update({'sport':model_to_dict(el.sport)['name']})
+    # co = model_to_dict(el.coach)
+    # co.update(model_to_dict(el.coach.user))
+    # co.pop('user')
+    # dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+    # dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
+    # slst =list()
+    # for student in list(el.stud.all()):
+    #     studdic= dict()
+    #     studdic.update({'group':student.group,'id':student.user.id,'tabnum':student.user.tabnum,'name':student.user.name,'surname':student.user.surname})
+    #     slst.append(studdic)
+    # dic.update({"stud":slst})
+    #
+    # # !!Выставление баллов
+    #
+    #
+    # # !!Все уроки
+    # courses = list(lesson.objects.all())
+    # for el in courses:
+    #     dic = dict()
+    #     dic.update({'sport':model_to_dict(el.sport)['name']})
+    #     co = model_to_dict(el.coach)
+    #     co.update(model_to_dict(el.coach.user))
+    #     co.pop('user')
+    #     dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+    #     dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
+    #     co = el.stud.all()
+    #     if len(co)!=0:
+    #         for u in co:
+    #             if u.user.id == us.id:
+    #                 dic.update({'member':True})
+    #                 break
+    #             else: dic.update({'member':False})
+    #     else: dic.update({'member':False})
+    #     an.append(dic)
 
     return JsonResponse(model_to_dict(p1))
 
