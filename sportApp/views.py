@@ -67,6 +67,26 @@ def schedule(request):
         print(e)
         return JsonResponse({'schedule':'error'})
 
+def getlesson(request):
+    logjson = get_from_request(request)
+    loguser = logjson.get("user")
+    try:
+        us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
+    except Exception as e:
+        print(e)
+        return JsonResponse({'gtlsn':'user_error'})
+    courses = list(lesson.objects.all())
+    for el in courses:
+        dic = dict()
+        dic.update({'sport':model_to_dict(el.sport)['name']})
+        co = model_to_dict(el.coach)
+        co.update(model_to_dict(el.coach.user))
+        co.pop('user')
+        dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
+        an.append(dic)
+    return JsonResponse({'gtlsn':an})
+
 
 def test(request):
     p1, created = user.objects.get_or_create(tabnum = "111111", password = '1488', name = "Alex", surname = 'Nefedov')
@@ -74,10 +94,22 @@ def test(request):
     t3, created = type2.objects.get_or_create(email = "asdfg@mail.ru", group = 'k3215', goal = "0", user = p3)
     t1, created = type2.objects.get_or_create(email = "asd@mail.ru", group = 'k3215', goal = "0", user = p1)
     s, created = sport.objects.get_or_create(name = 'Борьба',desc='Это борьба, там борятся.')
+    s1, created = sport.objects.get_or_create(name = 'Флорбол',desc='Это флорбол, там игрют в флорбол.')
+    s2, created = sport.objects.get_or_create(name = 'Бокс',desc='Это бокс, там дерутся.')
+    s3, created = sport.objects.get_or_create(name = 'Гребля',desc='Это гребля, там гребут.')
     p,created= place.objects.get_or_create(name = "Ломо")
+    p1p,created= place.objects.get_or_create(name = "Вязбма")
+    p2p,created= place.objects.get_or_create(name = "Альпийка")
+    p3p,created= place.objects.get_or_create(name = "Другое")
     p2, created = user.objects.get_or_create(tabnum = "222222", password = '1337', name = "Anton", surname = 'Evteev')
     t2, created = type1.objects.get_or_create(contacts = '911838284', desc = 'Хороший учитель', user = p2)
     l, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Пtонедельник",tday="11:40",place =p, countmax = '50',countnow='49')
+    l1, created = lesson.objects.get_or_create(sport = s1, coach = t2, lvl="2",wday="Вторник",tday="11:40",place =p1p, countmax = '50',countnow='50')
+    l2, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="3",wday="Среда",tday="13:30",place =p2p, countmax = '50',countnow='50')
+    l3, created = lesson.objects.get_or_create(sport = s3, coach = t2, lvl="3",wday="Четверг",tday="08:20",place =p3p, countmax = '25',countnow='25')
+    l4, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="2",wday="Пятница",tday="15:00",place =p1p, countmax = '30',countnow='30')
+    l5, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Суббота",tday="16:50",place =p2p, countmax = '40',countnow='40')
+
     l.stud.add(t1)
     l.stud.add(t3)
     us = user.objects.get(tabnum = '111111',password='1488')
@@ -85,7 +117,7 @@ def test(request):
     # l2 = lesson.objects.create(sport = s, coach = t2, lvl="1",wday="Понедельник",tday="11:40",place =p, countmax = '50',countnow='49')
     # l2.stud.add(t1)
 
-
+    # !! Уроки студента
     courses = list(lesson.objects.filter(stud = type))
     an = list()
     for el in courses:
@@ -97,7 +129,19 @@ def test(request):
         dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
         dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
         an.append(dic)
+    response = {'aut':an}
 
+    # !!Все уроки
+    courses = list(lesson.objects.all())
+    for el in courses:
+        dic = dict()
+        dic.update({'sport':model_to_dict(el.sport)['name']})
+        co = model_to_dict(el.coach)
+        co.update(model_to_dict(el.coach.user))
+        co.pop('user')
+        dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
+        an.append(dic)
     response = {'aut':an}
     print(response)
     return JsonResponse(model_to_dict(p1))
@@ -106,9 +150,7 @@ def test(request):
 @csrf_exempt
 def admin(request):
     logjson = get_from_request(request)
-    print(logjson)
     loguser = logjson.get("user")
-    print(loguser)
     if loguser['login']!="admin" and loguser['password'] != 'admin':
         return JsonResponse({'admin':'user_error'})
     lognewuser = logjson.get("newuser")
