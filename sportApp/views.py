@@ -142,8 +142,6 @@ def test(request):
     l4, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="2",wday="Пятница",tday="15:00",place =p1p, countmax = '30',countnow='30')
     l5, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Суббота",tday="16:50",place =p2p, countmax = '40',countnow='40')
 
-    l.stud.add(t1)
-    l.stud.add(t3)
     us = user.objects.get(tabnum = '111111',password='1488')
     type = us.type2
     # l2 = lesson.objects.create(sport = s, coach = t2, lvl="1",wday="Понедельник",tday="11:40",place =p, countmax = '50',countnow='49')
@@ -187,7 +185,6 @@ def test(request):
     return JsonResponse(model_to_dict(p1))
 
 def testtest(request):
-    lesson.objects.filter(wday = "Пtонедельник").delete()
     return JsonResponse({})
 
 @csrf_exempt
