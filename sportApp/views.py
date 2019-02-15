@@ -108,8 +108,10 @@ def dolesson(request):
         print(e)
         return JsonResponse({'dlsn':'user_error'})
     loglesson = logjson.get('lesson')
+    print(loglesson)
     if loglesson['do'] == "join":
         try:
+            print("check")
             if len(list(lesson.objects.filter(stud = t)))>=3:
                 return JsonResponse({'dlsn':'maxlessons'})
             l = lesson.objects.get(id = int(loglesson['id']))
@@ -122,6 +124,7 @@ def dolesson(request):
 
         return JsonResponse({'dlsn':'success'})
     elif loglesson['do']== 'del':
+        print('good')
         try:
             l = lesson.objects.get(id = int(loglesson['id']))
             l.stud.remove(t)
