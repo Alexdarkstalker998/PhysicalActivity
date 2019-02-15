@@ -136,7 +136,6 @@ def test(request):
     p3p,created= place.objects.get_or_create(name = "Другие спортивные объекты")
     p2, created = user.objects.get_or_create(tabnum = "222222", password = '1337', name = "Anton", surname = 'Evteev')
     t2, created = type1.objects.get_or_create(contacts = '911838284', desc = 'Хороший учитель', user = p2)
-    l, created = lesson.objects.get_or_create(sport = s, coach = t2, lvl="1",wday="Пtонедельник",tday="11:40",place =p, countmax = '50',countnow='49')
     l1, created = lesson.objects.get_or_create(sport = s1, coach = t2, lvl="2",wday="Вторник",tday="11:40",place =p1p, countmax = '50',countnow='50')
     l2, created = lesson.objects.get_or_create(sport = s2, coach = t2, lvl="3",wday="Среда",tday="13:30",place =p2p, countmax = '50',countnow='50')
     l3, created = lesson.objects.get_or_create(sport = s3, coach = t2, lvl="3",wday="Четверг",tday="08:20",place =p3p, countmax = '25',countnow='25')
@@ -188,6 +187,7 @@ def test(request):
     return JsonResponse(model_to_dict(p1))
 
 def testtest(request):
+    lesson.objects.filter(wday = "Пtонедельник").delete()
     return JsonResponse({})
 
 @csrf_exempt
