@@ -107,11 +107,11 @@ def dolesson(request):
     except Exception as e:
         print(e)
         return JsonResponse({'dlsn':'user_error'})
-    if len(list(lesson.objects.filter(stud = t)))>=3:
-        return JsonResponse({'dlsn':'maxlessons'})
     loglesson = logjson.get('lesson')
     if loglesson['do'] == "join":
         try:
+            if len(list(lesson.objects.filter(stud = t)))>=3:
+                return JsonResponse({'dlsn':'maxlessons'})
             l = lesson.objects.get(id = int(loglesson['id']))
             l.stud.add(t)
             l.countnow = str(int(l.countnow) - 1)
