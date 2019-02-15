@@ -68,6 +68,56 @@ def schedule(request):
         return JsonResponse({'schedule':'error'})
 
 @csrf_exempt
+def coschedule(response):
+    logjson = get_from_request(request)
+    loguser = logjson.get("user")
+    try:
+        us = user.objects.get(tabnum = loguser['login'],password=loguser['password'])
+        type = us.type1
+        courses = list(lesson.objects.filter(coach = type))
+        an = list()
+        for el in courses:
+            dic = dict()
+            dic.update({'sport':model_to_dict(el.sport)['name']})
+            co = model_to_dict(el.coach)
+            co.update(model_to_dict(el.coach.user))
+            co.pop('user')
+            dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+            dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
+            an.append(dic)
+        return JsonResponse({'sch':an})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'schedule':'error'})
+
+@csrf_exempt
+def colesson(request):
+    logjson = get_from_request(request)
+    loguser = logjson.get("user")
+    loglesson = logjson.get('lesson')
+    el = lesson.objects.get(id = int(loglesson))
+    dic = dict()
+    dic.update({'sport':model_to_dict(el.sport)['name']})
+    co = model_to_dict(el.coach)
+    co.update(model_to_dict(el.coach.user))
+    co.pop('user')
+    dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+    dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
+    slst =list()
+    for student in list(el.stud.all()):
+        studdic= dict()
+        studdic.update({'group':student.group,'id':student.user.id,'tabnum':student.user.tabnum,'name':student.user.name,'surname':student.user.surname})
+        slst.append(studdic)
+    dic.update({"stud":slst})
+    return JsonResponse({"clsn":dic})
+
+@csrf_exempt
+def copoints(request):
+
+    return a
+
+
+@csrf_exempt
 def getlesson(request):
     logjson = get_from_request(request)
     loguser = logjson.get("user")
@@ -176,6 +226,40 @@ def test(request):
         an.append(dic)
     response = {'aut':an}
 
+    # !!Уроки преподователя
+    type = p2.type1
+    courses = list(lesson.objects.filter(coach = type))
+    an = list()
+    for el in courses:
+        dic = dict()
+        dic.update({'sport':model_to_dict(el.sport)['name']})
+        co = model_to_dict(el.coach)
+        co.update(model_to_dict(el.coach.user))
+        co.pop('user')
+        dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+        dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place)})
+        an.append(dic)
+    response = {'aut':an}
+
+    # !!Урок преподователя
+    el = l1
+    dic = dict()
+    dic.update({'sport':model_to_dict(el.sport)['name']})
+    co = model_to_dict(el.coach)
+    co.update(model_to_dict(el.coach.user))
+    co.pop('user')
+    dic.update({'coach':{'name':co["name"],'surname':co["surname"],'id':co['id']}})
+    dic.update({'lvl':el.lvl,'wday':el.wday,"id":el.id,'tday':el.tday,"place":model_to_dict(el.place),'countmax':el.countmax,'countnow':el.countnow})
+    slst =list()
+    for student in list(el.stud.all()):
+        studdic= dict()
+        studdic.update({'group':student.group,'id':student.user.id,'tabnum':student.user.tabnum,'name':student.user.name,'surname':student.user.surname})
+        slst.append(studdic)
+    dic.update({"stud":slst})
+
+    # !!Выставление баллов
+
+
     # !!Все уроки
     courses = list(lesson.objects.all())
     for el in courses:
@@ -195,8 +279,7 @@ def test(request):
                 else: dic.update({'member':False})
         else: dic.update({'member':False})
         an.append(dic)
-    response = {'aut':an}
-    print(response)
+
     return JsonResponse(model_to_dict(p1))
 
 def testtest(request):

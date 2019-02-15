@@ -10,4 +10,7 @@ urlpatterns = [
     path('getlesson/',views.getlesson),
     path('dolesson/', views.dolesson),
     path('testtest/',views.testtest),
+    path('coschedule/',views.coschedule),
+    path('colesson/',views.colesson),
+    path('copoints/',views.copoints),
     ]
